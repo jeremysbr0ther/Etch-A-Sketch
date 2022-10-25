@@ -1,1 +1,1 @@
-This is a simple pixelated skecthbook project.
+This is a simple pixelated sketchbook project.
