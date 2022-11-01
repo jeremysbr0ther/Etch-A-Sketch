@@ -32,8 +32,9 @@ function createSketchPad() {
             }
             else {
                 let divBgColorRgb = arrayDiv[i].style.backgroundColor;
-                let divBgColorHex = rgbToHex(divBgColorRgb);
-                arrayDiv[i].style.backgroundColor = lightenDarkenColor(divBgColorHex, -10);
+                let divBgColorHex = rgbToHex(divBgColorRgb).replace('#', '');
+                console.log(divBgColorHex);
+                arrayDiv[i].style.backgroundColor = lightenDarkenColor(divBgColorHex, -20);
             }
         })
     }
