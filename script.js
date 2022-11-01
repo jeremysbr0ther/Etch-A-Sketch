@@ -24,11 +24,17 @@ function createSketchPad() {
         arrayDiv[i].textContent = '';
         arrayDiv[i].style.width = boxWidth + 'px';
         arrayDiv[i].style.height = boxHeight + 'px';
+        arrayDiv[i].style.backgroundColor = 'white';
         sketchContainer.appendChild(arrayDiv[i]);
         arrayDiv[i].addEventListener('mouseover', () => {
-        arrayDiv[i].style.backgroundColor = 'black';
-        arrayDiv[i].style.background = 'black';
-        arrayDiv[i].style.borderStyle = 'none';
+            if (arrayDiv[i].style.backgroundColor == 'white') {
+                arrayDiv[i].style.backgroundColor = getRandomHex();
+            }
+            else {
+                let divBgColorRgb = arrayDiv[i].style.backgroundColor;
+                let divBgColorHex = rgbToHex(divBgColorRgb);
+                arrayDiv[i].style.backgroundColor = lightenDarkenColor(divBgColorHex, -10);
+            }
         })
     }
 }
@@ -51,5 +57,32 @@ gridButton.addEventListener('click', () => {
     boxHeight = (480 / gridNum).toString();
     createSketchPad();
 })
+
+function getRandomHex() {
+    return '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
+}
+
+function lightenDarkenColor(col, amt) {
+    let num = parseInt(col, 16);
+    console.log(num);
+    let r = (num >> 16) + amt;
+    let b = ((num >> 8) & 0x00ff) + amt;
+    let g = (num & 0x0000ff) | (r << 16);
+    return 'rgb(' + r + ',' + g + ',' + b + ')';
+}
+
+function componentToHex(c) {
+    // This expects `c` to be a number:
+    const hex = c.toString(16);
+  
+    return hex.length === 1 ? `0${ hex }` : hex;
+  }
+  
+  function rgbToHex(rgb) {
+    // .map(Number) will convert each string to number:
+    const [r, g, b] = rgb.replace('rgb(', '').replace(')', '').split(',').map(Number);
+    
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+  }
 
 
